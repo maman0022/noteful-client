@@ -8,13 +8,14 @@ import NotePageMain from '../NotePageMain/NotePageMain';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
-import NotefulForm from '../NotefulForm/NotefulForm';
+import AddFolder from '../AddFolder/AddFolder';
 import AddNote from '../AddNote/AddNote'
 
 class App extends Component {
   state = {
     notes: [],
-    folders: []
+    folders: [],
+    error: null
   };
 
   componentDidMount() {
@@ -38,28 +39,22 @@ class App extends Component {
       });
   }
 
+  setError = error => {
+    this.setState({error})
+  }
+
   handleDeleteNote = noteId => {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     });
   };
 
-  handleAddFolder = name => {
-    return fetch('http://localhost:9090/folders', {
-      headers:
-        { 'content-type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify({ name })
-    })
+  handleAddFolder = folder => {
+    this.setState({folders:[...this.state.folders,folder]})
   }
 
-  handleAddNote = (name, content, folderId) => {
-    return fetch('http://localhost:9090/notes', {
-      headers:
-        { 'content-type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify({ name, content, folderId, modified: new Date() })
-    })
+  handleAddNote = note => {
+    this.setState({notes:[...this.state.notes,note]})
   }
 
   renderNavRoutes() {
@@ -92,7 +87,7 @@ class App extends Component {
           />
         ))}
         <Route path="/note/:noteId" component={NotePageMain} />
-        <Route path="/add-folder" component={NotefulForm} />
+        <Route path="/add-folder" component={AddFolder} />
         <Route path="/add-note" component={AddNote} />
       </>
     );
@@ -102,9 +97,11 @@ class App extends Component {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
+      error: this.state.error,
       deleteNote: this.handleDeleteNote,
-      handleAddFolder: this.handleAddFolder,
-      handleAddNote: this.handleAddNote
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote,
+      setError: this.setError
     };
     return (
       <ApiContext.Provider value={value}>
