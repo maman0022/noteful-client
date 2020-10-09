@@ -1,4 +1,3 @@
-
 .NoteListNav__list {
   list-style-type: none;
   margin: 130px 0 0;
@@ -13,6 +12,7 @@
 .NoteListNav__add-folder-button {
   margin: 20px auto;
 }
+
 .NoteListNav__add-folder-button:hover {
   background-color: #29862e;
   color: white;
@@ -29,10 +29,12 @@
   padding: 8px 16px;
   text-decoration: none;
 }
+
 .NoteListNav__folder-link:hover {
   color: #FFB72F;
   cursor: pointer;
 }
+
 .NoteListNav__folder-link.active {
   background-color: #102541;
 }

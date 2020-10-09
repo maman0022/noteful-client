@@ -17,7 +17,7 @@ export default class NoteListMain extends React.Component {
 
   render() {
     const { folderId } = this.props.match.params
-    const { notes=[] } = this.context
+    const { notes = [], error } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
     return (
       <section className='NoteListMain'>
@@ -44,6 +44,7 @@ export default class NoteListMain extends React.Component {
             Note
           </CircleButton>
         </div>
+        {error ? <h5 className='database-error'>Unable to connect with database</h5> : void 0}
       </section>
     )
   }

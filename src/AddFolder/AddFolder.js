@@ -1,44 +1,50 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../NotefulForm/NotefulForm.css';
 import ApiContext from '../ApiContext';
 import config from '../config';
 
 export default function AddFolder(props) {
 
-  const [folderName,setFolderName] = useState({name:{value:123}})
+  const [folderName, setFolderName] = useState({ value: '', touched: false });
+  const [error, setError] = useState(false);
 
-  console.log(folderName);
-  let handleFormSubmit = (e, addFolder, setError) => {
+  let handleFormSubmit = (e, addFolder) => {
     e.preventDefault();
-    const name = e.target.querySelector('#add-folder').value;
-    if (name.trim() === '') {
-      setError('Name cannot be blank');
-      return;
-    }
+    const name = folderName.value;
     fetch(`${config.API_ENDPOINT}/folders`, {
       headers:
         { 'content-type': 'application/json' },
       method: 'POST',
       body: JSON.stringify({ name })
     })
-      .then(resp => !resp.ok ? resp.text().then(Promise.reject) : resp.json())
+      .then(resp => !resp.ok ? Promise.reject : resp.json())
       .then(folder => {
         addFolder(folder);
-        setError(null);
+        setError(false);
         props.history.push('/');
       })
-      .catch(setError)
+      .catch(setError(true))
   }
 
+  let handleInput = e => {
+    setFolderName({ value: e.target.value, touched: true })
+  }
+
+  let validateInput = () => {
+    if (folderName.value.trim() === '' && folderName.touched) {
+      return 'Name cannot be blank';
+    }
+  }
 
   return (
     <ApiContext.Consumer>
-      {({ addFolder, error, setError }) => <form
-        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addFolder, setError)}>
-        {error ? <h5>An Error Occured:<br/>{error}</h5> : void 0}
+      {({ addFolder }) => <form
+        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addFolder)}>
         <label htmlFor='add-folder'>Enter Folder Name:</label>
-        <input type='text' id='add-folder' name='folder' required></input>
-        <input type='submit' value='Submit'></input>
+        <input type='text' id='add-folder' required onChange={handleInput} value={folderName.value}></input>
+        {validateInput() ? <h5 className='warning'>{validateInput()}</h5> : void 0}
+        <input type='submit' value='Submit' disabled={validateInput()}></input>
+        {error ? <h5 className='database-error'>Unable to connect with database</h5> : void 0}
       </form>}
     </ApiContext.Consumer>
   )

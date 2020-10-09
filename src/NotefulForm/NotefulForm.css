@@ -11,9 +11,7 @@
   padding-bottom: 8px;
 }
 
-.Noteful-form input,
-.Noteful-form textarea,
-.Noteful-form select {
+.Noteful-form input, .Noteful-form textarea, .Noteful-form select {
   font-size: 14px;
   padding: 8px;
   width: 300px;
@@ -23,10 +21,11 @@
   height: 33px;
 }
 
-.Noteful-form > .field {
+.Noteful-form>.field {
   margin-bottom: 16px;
 }
-.Noteful-form > .buttons {
+
+.Noteful-form>.buttons {
   margin-top: 26px;
 }
 
@@ -42,7 +41,13 @@
   text-align: center;
   text-decoration: none;
 }
+
 .Noteful-form button[type="submit"]:hover {
   background-color: #29862e;
   color: white;
+}
+
+.warning {
+  color: darkorange;
+  margin: 0.2em auto;
 }
