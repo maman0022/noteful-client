@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ApiContext from '../ApiContext';
 import config from '../config';
+import propTypes from 'prop-types';
 
 export default function AddNote(props) {
   const [noteName, setNoteName] = useState({ value: '', touched: false });
@@ -70,4 +71,8 @@ export default function AddNote(props) {
       </form>}
     </ApiContext.Consumer>
   )
+}
+
+AddNote.propTypes = {
+  history: propTypes.object.isRequired
 }

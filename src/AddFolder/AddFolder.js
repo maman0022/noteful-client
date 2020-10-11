@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../NotefulForm/NotefulForm.css';
 import ApiContext from '../ApiContext';
 import config from '../config';
+import propTypes from 'prop-types';
 
 export default function AddFolder(props) {
 
@@ -48,4 +49,8 @@ export default function AddFolder(props) {
       </form>}
     </ApiContext.Consumer>
   )
+}
+
+AddFolder.propTypes = {
+  history: propTypes.object.isRequired
 }
