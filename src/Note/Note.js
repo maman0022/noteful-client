@@ -75,5 +75,5 @@ Note.propTypes = {
   name: propTypes.string.isRequired,
   id: propTypes.string.isRequired,
   modified: propTypes.string.isRequired,
-  onDeleteNote: propTypes.func
+  onDeleteNote: propTypes.func.isRequired
 }
