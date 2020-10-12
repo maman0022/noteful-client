@@ -63,9 +63,11 @@ class App extends Component {
             component={NoteListNav}
           />
         ))}
-        <Route path="/note/:noteId" component={NotePageNav} />
-        <Route path="/add-folder" component={NotePageNav} />
-        <Route path="/add-note" component={NotePageNav} />
+        <ErrorBoundary>
+          <Route exact path="/note/:noteId" component={NotePageNav} />
+          <Route exact path="/add-folder" component={NotePageNav} />
+          <Route exact path="/add-note" component={NotePageNav} />
+        </ErrorBoundary>
       </>
     );
   }
@@ -81,9 +83,13 @@ class App extends Component {
             component={NoteListMain}
           />
         ))}
-        <Route path="/note/:noteId" component={NotePageMain} />
-        <Route path="/add-folder" component={AddFolder} />
-        <Route path="/add-note" component={AddNote} />
+        <ErrorBoundary>
+          <Route exact path="/note/:noteId" component={NotePageMain} />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Route exact path="/add-folder" component={AddFolder} />
+          <Route exact path="/add-note" component={AddNote} />
+        </ErrorBoundary>
       </>
     );
   }
@@ -99,18 +105,16 @@ class App extends Component {
     };
     return (
       <ApiContext.Provider value={value}>
-        <ErrorBoundary>
-          <div className="App">
-            <nav className="App__nav">{this.renderNavRoutes()}</nav>
-            <header className="App__header">
-              <h1>
-                <Link to="/">Noteful</Link>{' '}
-                <FontAwesomeIcon icon="check-double" />
-              </h1>
-            </header>
-            <main className="App__main">{this.renderMainRoutes()}</main>
-          </div>
-        </ErrorBoundary>
+        <div className="App">
+          <nav className="App__nav">{this.renderNavRoutes()}</nav>
+          <header className="App__header">
+            <h1>
+              <Link to="/">Noteful</Link>{' '}
+              <FontAwesomeIcon icon="check-double" />
+            </h1>
+          </header>
+          <main className="App__main">{this.renderMainRoutes()}</main>
+        </div>
       </ApiContext.Provider>
     );
   }
