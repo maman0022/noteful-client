@@ -7,7 +7,7 @@ import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNav.css'
 
 export default class NoteListNav extends React.Component {
-  static contextType = ApiContext;
+  static contextType = ApiContext
 
   render() {
     const { folders = [], notes = [] } = this.context

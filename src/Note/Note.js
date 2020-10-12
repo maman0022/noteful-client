@@ -11,7 +11,7 @@ export default class Note extends React.Component {
   static defaultProps = {
     onDeleteNote: () => { },
   }
-  static contextType = ApiContext;
+  static contextType = ApiContext
 
   handleClickDelete = e => {
     e.preventDefault()

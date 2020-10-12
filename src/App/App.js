@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NoteListNav from '../NoteListNav/NoteListNav';
-import NotePageNav from '../NotePageNav/NotePageNav';
-import NoteListMain from '../NoteListMain/NoteListMain';
-import NotePageMain from '../NotePageMain/NotePageMain';
-import ApiContext from '../ApiContext';
-import config from '../config';
-import './App.css';
-import AddFolder from '../AddFolder/AddFolder';
-import AddNote from '../AddNote/AddNote';
-import ErrorBoundary from '../ErrorBoundary';
+import React, { Component } from 'react'
+import { Route, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import NoteListNav from '../NoteListNav/NoteListNav'
+import NotePageNav from '../NotePageNav/NotePageNav'
+import NoteListMain from '../NoteListMain/NoteListMain'
+import NotePageMain from '../NotePageMain/NotePageMain'
+import ApiContext from '../ApiContext'
+import config from '../config'
+import './App.css'
+import AddFolder from '../AddFolder/AddFolder'
+import AddNote from '../AddNote/AddNote'
+import ErrorBoundary from '../ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -26,14 +26,14 @@ class App extends Component {
     ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok)
-          return notesRes.json().then(e => Promise.reject(e));
+          return notesRes.json().then(e => Promise.reject(e))
         if (!foldersRes.ok)
-          return foldersRes.json().then(e => Promise.reject(e));
+          return foldersRes.json().then(e => Promise.reject(e))
 
-        return Promise.all([notesRes.json(), foldersRes.json()]);
+        return Promise.all([notesRes.json(), foldersRes.json()])
       })
       .then(([notes, folders]) => {
-        this.setState({ notes, folders, error: false });
+        this.setState({ notes, folders, error: false })
       })
       .catch(this.setState({ error: true }))
   }
@@ -116,4 +116,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

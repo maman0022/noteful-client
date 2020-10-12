@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import ApiContext from '../ApiContext';
-import config from '../config';
-import propTypes from 'prop-types';
+import ApiContext from '../ApiContext'
+import config from '../config'
+import propTypes from 'prop-types'
 
 export default function AddNote(props) {
-  const [noteName, setNoteName] = useState({ value: '', touched: false });
-  const [noteContent, setNoteContent] = useState({ value: '', touched: false });
-  const [error, setError] = useState(false);
+  const [noteName, setNoteName] = useState({ value: '', touched: false })
+  const [noteContent, setNoteContent] = useState({ value: '', touched: false })
+  const [error, setError] = useState(false)
   let handleFormSubmit = (e, addNote) => {
-    e.preventDefault();
-    const name = noteName.value;
-    const content = noteContent.value;
-    const index = e.target.querySelector('#folder').selectedIndex;
-    const folderId = e.target.querySelectorAll('#folder option')[index].value;
+    e.preventDefault()
+    const name = noteName.value
+    const content = noteContent.value
+    const index = e.target.querySelector('#folder').selectedIndex
+    const folderId = e.target.querySelectorAll('#folder option')[index].value
     fetch(`${config.API_ENDPOINT}/notes`, {
       headers:
         { 'content-type': 'application/json' },
@@ -21,30 +21,30 @@ export default function AddNote(props) {
     })
       .then(resp => !resp.ok ? Promise.reject : resp.json())
       .then(note => {
-        addNote(note);
-        setError(false);
-        props.history.push('/');
+        addNote(note)
+        setError(false)
+        props.history.push('/')
       })
       .catch(setError(true))
   }
 
   let handleName = e => {
-    setNoteName({ value: e.target.value, touched: true });
+    setNoteName({ value: e.target.value, touched: true })
   }
 
   let handleContent = e => {
-    setNoteContent({ value: e.target.value, touched: true });
+    setNoteContent({ value: e.target.value, touched: true })
   }
 
   let validateName = () => {
     if (noteName.value.trim() === '' && noteName.touched) {
-      return 'Name cannot be blank';
+      return 'Name cannot be blank'
     }
   }
 
   let validateContent = () => {
     if (noteContent.value.trim() === '' && noteContent.touched) {
-      return 'Content cannot be blank';
+      return 'Content cannot be blank'
     }
   }
 

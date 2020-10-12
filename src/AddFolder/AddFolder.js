@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import '../NotefulForm/NotefulForm.css';
-import ApiContext from '../ApiContext';
-import config from '../config';
-import propTypes from 'prop-types';
+import React, { useState } from 'react'
+import '../NotefulForm/NotefulForm.css'
+import ApiContext from '../ApiContext'
+import config from '../config'
+import propTypes from 'prop-types'
 
 export default function AddFolder(props) {
 
-  const [folderName, setFolderName] = useState({ value: '', touched: false });
-  const [error, setError] = useState(false);
+  const [folderName, setFolderName] = useState({ value: '', touched: false })
+  const [error, setError] = useState(false)
 
   let handleFormSubmit = (e, addFolder) => {
-    e.preventDefault();
-    const name = folderName.value;
+    e.preventDefault()
+    const name = folderName.value
     fetch(`${config.API_ENDPOINT}/folders`, {
       headers:
         { 'content-type': 'application/json' },
@@ -20,9 +20,9 @@ export default function AddFolder(props) {
     })
       .then(resp => !resp.ok ? Promise.reject : resp.json())
       .then(folder => {
-        addFolder(folder);
-        setError(false);
-        props.history.push('/');
+        addFolder(folder)
+        setError(false)
+        props.history.push('/')
       })
       .catch(setError(true))
   }
@@ -33,7 +33,7 @@ export default function AddFolder(props) {
 
   let validateInput = () => {
     if (folderName.value.trim() === '' && folderName.touched) {
-      return 'Name cannot be blank';
+      return 'Name cannot be blank'
     }
   }
 
