@@ -19,10 +19,14 @@ class App extends Component {
     error: false
   };
 
+  headers = {
+    Authorization: `Bearer ${config.API_TOKEN}`
+  }
+
   componentDidMount() {
     Promise.all([
-      fetch(`${config.API_ENDPOINT}/notes`),
-      fetch(`${config.API_ENDPOINT}/folders`)
+      fetch(`${config.API_ENDPOINT}/api/notes`, { headers: this.headers }),
+      fetch(`${config.API_ENDPOINT}/api/folders`, { headers: this.headers })
     ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok)
@@ -40,7 +44,7 @@ class App extends Component {
 
   handleDeleteNote = noteId => {
     this.setState({
-      notes: this.state.notes.filter(note => note.id !== noteId)
+      notes: this.state.notes.filter(note => note.id !== Number(noteId))
     });
   };
 
@@ -101,7 +105,8 @@ class App extends Component {
       error: this.state.error,
       deleteNote: this.handleDeleteNote,
       addFolder: this.handleAddFolder,
-      addNote: this.handleAddNote
+      addNote: this.handleAddNote,
+      headers: this.headers
     };
     return (
       <ApiContext.Provider value={value}>

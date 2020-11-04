@@ -9,16 +9,19 @@ export default function AddFolder(props) {
   const [folderName, setFolderName] = useState({ value: '', touched: false })
   const [error, setError] = useState(false)
 
-  let handleFormSubmit = (e, addFolder) => {
+  let handleFormSubmit = (e, addFolder, headers) => {
     e.preventDefault()
     const name = folderName.value
-    fetch(`${config.API_ENDPOINT}/folders`, {
+    fetch(`${config.API_ENDPOINT}/api/folders`, {
       headers:
-        { 'content-type': 'application/json' },
+      {
+        'content-type': 'application/json',
+        'authorization': headers.Authorization
+      },
       method: 'POST',
       body: JSON.stringify({ name })
     })
-      .then(resp => !resp.ok ? Promise.reject : resp.json())
+      .then(resp => !resp.ok ? Promise.reject() : resp.json())
       .then(folder => {
         addFolder(folder)
         setError(false)
@@ -39,8 +42,8 @@ export default function AddFolder(props) {
 
   return (
     <ApiContext.Consumer>
-      {({ addFolder }) => <form
-        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addFolder)}>
+      {({ addFolder, headers }) => <form
+        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addFolder, headers)}>
         <label htmlFor='add-folder'>Enter Folder Name:</label>
         <input type='text' id='add-folder' required onChange={handleInput} value={folderName.value}></input>
         {validateInput() ? <h5 className='warning'>{validateInput()}</h5> : void 0}

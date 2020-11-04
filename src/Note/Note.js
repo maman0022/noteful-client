@@ -17,17 +17,17 @@ export default class Note extends React.Component {
     e.preventDefault()
     const noteId = this.props.id
 
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+    fetch(`${config.API_ENDPOINT}/api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'authorization': this.context.headers.Authorization
       },
     })
       .then(res => {
         if (!res.ok) {
           return res.json().then(e => Promise.reject(e))
         }
-        return res.json()
       })
       .then(() => {
         this.context.deleteNote(noteId)
@@ -73,7 +73,7 @@ export default class Note extends React.Component {
 
 Note.propTypes = {
   name: propTypes.string.isRequired,
-  id: propTypes.string.isRequired,
+  id: propTypes.number.isRequired,
   modified: propTypes.string.isRequired,
   onDeleteNote: propTypes.func.isRequired
 }

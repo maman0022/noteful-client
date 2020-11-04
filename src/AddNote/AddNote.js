@@ -7,19 +7,22 @@ export default function AddNote(props) {
   const [noteName, setNoteName] = useState({ value: '', touched: false })
   const [noteContent, setNoteContent] = useState({ value: '', touched: false })
   const [error, setError] = useState(false)
-  let handleFormSubmit = (e, addNote) => {
+  let handleFormSubmit = (e, addNote, headers) => {
     e.preventDefault()
     const name = noteName.value
     const content = noteContent.value
     const index = e.target.querySelector('#folder').selectedIndex
-    const folderId = e.target.querySelectorAll('#folder option')[index].value
-    fetch(`${config.API_ENDPOINT}/notes`, {
+    const folderid = Number(e.target.querySelectorAll('#folder option')[index].value)
+    fetch(`${config.API_ENDPOINT}/api/notes`, {
       headers:
-        { 'content-type': 'application/json' },
+      {
+        'content-type': 'application/json',
+        'authorization': headers.Authorization
+      },
       method: 'POST',
-      body: JSON.stringify({ name, content, folderId, modified: new Date() })
+      body: JSON.stringify({ name, content, folderid, modified: new Date() })
     })
-      .then(resp => !resp.ok ? Promise.reject : resp.json())
+      .then(resp => !resp.ok ? Promise.reject() : resp.json())
       .then(note => {
         addNote(note)
         setError(false)
@@ -50,8 +53,8 @@ export default function AddNote(props) {
 
   return (
     <ApiContext.Consumer>
-      {({ addNote, folders }) => <form
-        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addNote)}>
+      {({ addNote, folders, headers }) => <form
+        className='Noteful-form' onSubmit={e => handleFormSubmit(e, addNote, headers)}>
         <label htmlFor='add-note'>Enter Note Name:</label>
         <input type='text' id='add-note' name='note' required onChange={handleName} />
         {validateName() ? <h5 className='warning'>{validateName()}</h5> : void 0}
@@ -62,7 +65,7 @@ export default function AddNote(props) {
         <select id='folder' required>
           {folders.map(folder => {
             return (
-              <option value={folder.id}>{folder.name}</option>
+              <option key={folder.id} value={folder.id}>{folder.name}</option>
             )
           })}
         </select>
