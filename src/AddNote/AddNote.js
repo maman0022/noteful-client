@@ -28,7 +28,7 @@ export default function AddNote(props) {
         setError(false)
         props.history.push('/')
       })
-      .catch(setError(true))
+      .catch(()=>setError(true))
   }
 
   let handleName = e => {

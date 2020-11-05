@@ -39,7 +39,7 @@ class App extends Component {
       .then(([notes, folders]) => {
         this.setState({ notes, folders, error: false })
       })
-      .catch(this.setState({ error: true }))
+      .catch(()=>this.setState({ error: true }))
   }
 
   handleDeleteNote = noteId => {

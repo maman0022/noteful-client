@@ -27,7 +27,7 @@ export default function AddFolder(props) {
         setError(false)
         props.history.push('/')
       })
-      .catch(setError(true))
+      .catch(()=>setError(true))
   }
 
   let handleInput = e => {
